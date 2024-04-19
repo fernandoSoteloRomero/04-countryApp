@@ -9,19 +9,27 @@ export class CountriesService {
 
   constructor(private http: HttpClient) {}
 
-  searchCapital(search: string): Observable<Country[]> {
-    return this.http.get<Country[]>(`${this.apiUrl}/capital/${search}`).pipe(
-      catchError( () => of([]) )
+  searchCountryByAlphaCode(code: string): Observable<Country | null> {
+    return this.http.get<Country[]>(`${this.apiUrl}/alpha/${code}`)
+    .pipe(
+      map((countries) => (countries.length > 0 ? countries[0] : null)),
+      catchError(() => of(null))
     );
   }
-  searchCountry(search: string): Observable<Country[]>{
-    return this.http.get<Country[]>(`${this.apiUrl}/name/${search}`).pipe(
-      catchError( ()=> of([]) )
-    )
+
+  searchCapital(search: string): Observable<Country[]> {
+    return this.http
+      .get<Country[]>(`${this.apiUrl}/capital/${search}`)
+      .pipe(catchError(() => of([])));
   }
-  searchRegion(search: string): Observable<Country[]>{
-    return this.http.get<Country[]>(`${this.apiUrl}/region/${search}`).pipe(
-      catchError( ()=> of([]) )
-    )
+  searchCountry(search: string): Observable<Country[]> {
+    return this.http
+      .get<Country[]>(`${this.apiUrl}/name/${search}`)
+      .pipe(catchError(() => of([])));
+  }
+  searchRegion(search: string): Observable<Country[]> {
+    return this.http
+      .get<Country[]>(`${this.apiUrl}/region/${search}`)
+      .pipe(catchError(() => of([])));
   }
 }
