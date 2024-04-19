@@ -19,7 +19,9 @@ export class CountriesService {
       catchError( ()=> of([]) )
     )
   }
-  // searchRegion(search: string): Observable<Country[]>{
-
-  // }
+  searchRegion(search: string): Observable<Country[]>{
+    return this.http.get<Country[]>(`${this.apiUrl}/region/${search}`).pipe(
+      catchError( ()=> of([]) )
+    )
+  }
 }
